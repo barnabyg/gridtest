@@ -48,10 +48,7 @@ public final class GridTest {
      */
     @Parameters
     public static Collection<Object[]> generateData() {
-        // In this example, the parameter generator returns a List of
-        // arrays. Each array has two elements: { datum, expected }.
-        // These data are hard-coded into the class, but they could be
-        // generated or loaded in any way you like.
+
         return Arrays.asList(new Object[][] {{"firefox"}, {"chrome"}});
     }
 
