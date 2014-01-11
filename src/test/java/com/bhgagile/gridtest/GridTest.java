@@ -1,4 +1,4 @@
- /*************************************************************************
+/*************************************************************************
  *  2013 BHGAGILE
  *  All Rights Reserved.
  *
@@ -9,10 +9,8 @@ package com.bhgagile.gridtest;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,25 +27,37 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 @RunWith(Parameterized.class)
 public final class GridTest {
 
+    /**
+     * Browser member.
+     */
     private String browser;
 
+    /**
+     * Constructor for use with parameterised call.
+     *
+     * @param browser
+     *            the browser to test
+     */
     public GridTest(final String browser) {
         this.browser = browser;
     }
 
-        @Parameters
-        public static Collection<Object[]> generateData()
-        {
-           // In this example, the parameter generator returns a List of
-           // arrays.  Each array has two elements: { datum, expected }.
-           // These data are hard-coded into the class, but they could be
-           // generated or loaded in any way you like.
-           return Arrays.asList(new Object[][] {
-              { "firefox" },
-              { "chrome" }
-           });
-        }
-    
+    /**
+     * Generate the list of parameters.
+     * @return list of arrays
+     */
+    @Parameters
+    public static Collection<Object[]> generateData() {
+        // In this example, the parameter generator returns a List of
+        // arrays. Each array has two elements: { datum, expected }.
+        // These data are hard-coded into the class, but they could be
+        // generated or loaded in any way you like.
+        return Arrays.asList(new Object[][] {{"firefox"}, {"chrome"}});
+    }
+
+    /**
+     * Simple example test.
+     */
     @Test
     public void gridTest() {
 
@@ -68,7 +78,8 @@ public final class GridTest {
         WebDriver driver = null;
 
         try {
-            driver = new RemoteWebDriver(new URL("http://server1.bhgagile.com:4444/wd/hub"), capability);
+            driver = new RemoteWebDriver(new URL(
+                    "http://server1.bhgagile.com:4444/wd/hub"), capability);
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
