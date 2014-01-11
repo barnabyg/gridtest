@@ -9,26 +9,61 @@ package com.bhgagile.gridtest;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-
-import com.thoughtworks.selenium.DefaultSelenium;
-import com.thoughtworks.selenium.Selenium;
 
 /**
  * @author Barnaby Golden
  *
  */
+@RunWith(Parameterized.class)
 public final class GridTest {
 
+    private String browser;
+
+    public GridTest(final String browser) {
+        this.browser = browser;
+    }
+
+        @Parameters
+        public static Collection<Object[]> generateData()
+        {
+           // In this example, the parameter generator returns a List of
+           // arrays.  Each array has two elements: { datum, expected }.
+           // These data are hard-coded into the class, but they could be
+           // generated or loaded in any way you like.
+           return Arrays.asList(new Object[][] {
+              { "firefox" },
+              { "chrome" }
+           });
+        }
+    
     @Test
     public void gridTest() {
 
-        Selenium selenium = new DefaultSelenium("localhost", 4444, "*firefox", "http://www.google.com");
-        DesiredCapabilities capability = DesiredCapabilities.firefox();
+        DesiredCapabilities capability;
+
+        switch (browser) {
+        case "firefox":
+            capability = DesiredCapabilities.firefox();
+            break;
+        case "chrome":
+            capability = DesiredCapabilities.chrome();
+            break;
+        default:
+            capability = DesiredCapabilities.firefox();
+            break;
+        }
 
         WebDriver driver = null;
 
