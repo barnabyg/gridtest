@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -76,43 +77,76 @@ public final class GridTest {
         WebDriver driver = null;
 
         if (usingGrid()) {
-            DesiredCapabilities capability;
-
-            switch (browser) {
-            case "firefox":
-                capability = DesiredCapabilities.firefox();
-                break;
-            case "chrome":
-                capability = DesiredCapabilities.chrome();
-                break;
-            default:
-                capability = DesiredCapabilities.firefox();
-                break;
-            }
-
-
-            try {
-                driver = new RemoteWebDriver(new URL(
-                        "http://server1.bhgagile.com:4444/wd/hub"), capability);
-            } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            driver = getGridDriver();
         } else {
-            switch (browser) {
-            case "firefox":
-                driver = new FirefoxDriver();
-                break;
-            case "chrome":
+            driver = getLocalDriver();
+        }
+
+        return driver;
+    }
+
+    /**
+     * Remote grid driver.
+     * @return driver
+     */
+    private WebDriver getGridDriver() {
+
+        WebDriver driver = null;
+
+        DesiredCapabilities capability;
+
+        switch (browser) {
+        case "firefox":
+            capability = DesiredCapabilities.firefox();
+            break;
+        case "chrome":
+            capability = DesiredCapabilities.chrome();
+            break;
+        default:
+            capability = DesiredCapabilities.firefox();
+            break;
+        }
+
+
+        try {
+            driver = new RemoteWebDriver(new URL(
+                    "http://server1.bhgagile.com:4444/wd/hub"), capability);
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return driver;
+    }
+
+    /**
+     * Local operation driver.
+     * @return driver
+     */
+    private WebDriver getLocalDriver() {
+
+        WebDriver driver = null;
+
+        switch (browser) {
+        case "firefox":
+            driver = new FirefoxDriver();
+            break;
+        case "chrome":
+            if (SystemUtils.IS_OS_LINUX) {
                 System.setProperty(
-                     "webdriver.chrome.driver",
+                        "webdriver.chrome.driver",
+             "/opt/jenkins/workspace/gridtest/src/test/resources/chromedriver");
+            } else if (SystemUtils.IS_OS_WINDOWS) {
+                System.setProperty(
+                        "webdriver.chrome.driver",
              "C:\\docs\\git\\gridtest\\src\\test\\resources\\chromedriver.exe");
-                driver = new ChromeDriver();
-                break;
-            default:
-                driver = new FirefoxDriver();
-                break;
             }
+
+            driver = new ChromeDriver();
+            break;
+        default:
+            driver = new FirefoxDriver();
+            break;
         }
 
         return driver;
