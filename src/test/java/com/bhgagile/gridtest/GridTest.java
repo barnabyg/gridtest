@@ -91,6 +91,8 @@ public final class GridTest {
      */
     private WebDriver getGridDriver() {
 
+        System.out.println("Testing On the Grid");
+
         WebDriver driver = null;
 
         DesiredCapabilities capability;
@@ -124,6 +126,8 @@ public final class GridTest {
      * @return driver
      */
     private WebDriver getLocalDriver() {
+
+        System.out.println("Testing Locally");
 
         WebDriver driver = null;
 
