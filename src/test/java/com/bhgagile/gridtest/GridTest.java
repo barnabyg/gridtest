@@ -170,6 +170,8 @@ public final class GridTest {
             mode = true;
         }
 
+        System.out.println("usingGrid=" + mode);
+
         return mode;
     }
 }
