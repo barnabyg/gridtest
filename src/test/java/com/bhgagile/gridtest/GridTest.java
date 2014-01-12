@@ -17,6 +17,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -58,32 +60,82 @@ public final class GridTest {
     @Test
     public void gridTest() {
 
-        DesiredCapabilities capability;
-
-        switch (browser) {
-        case "firefox":
-            capability = DesiredCapabilities.firefox();
-            break;
-        case "chrome":
-            capability = DesiredCapabilities.chrome();
-            break;
-        default:
-            capability = DesiredCapabilities.firefox();
-            break;
-        }
-
-        WebDriver driver = null;
-
-        try {
-            driver = new RemoteWebDriver(new URL(
-                    "http://server1.bhgagile.com:4444/wd/hub"), capability);
-        } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        final WebDriver driver = getDriver();
 
         driver.get("http://www.google.co.uk");
 
         driver.quit();
+    }
+
+    /**
+     * Get the appropriate web driver.
+     * @return driver
+     */
+    private WebDriver getDriver() {
+
+        WebDriver driver = null;
+
+        if (usingGrid()) {
+            DesiredCapabilities capability;
+
+            switch (browser) {
+            case "firefox":
+                capability = DesiredCapabilities.firefox();
+                break;
+            case "chrome":
+                capability = DesiredCapabilities.chrome();
+                break;
+            default:
+                capability = DesiredCapabilities.firefox();
+                break;
+            }
+
+
+            try {
+                driver = new RemoteWebDriver(new URL(
+                        "http://server1.bhgagile.com:4444/wd/hub"), capability);
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } else {
+            switch (browser) {
+            case "firefox":
+                driver = new FirefoxDriver();
+                break;
+            case "chrome":
+                System.setProperty(
+                     "webdriver.chrome.driver",
+             "C:\\docs\\git\\gridtest\\src\\test\\resources\\chromedriver.exe");
+                driver = new ChromeDriver();
+                break;
+            default:
+                driver = new FirefoxDriver();
+                break;
+            }
+        }
+
+        return driver;
+    }
+
+    /**
+     * Flag to indicate if a grid should be used or if browsers
+     * should be run locally.
+     *
+     * @return true if using grid else false
+     */
+    private boolean usingGrid() {
+
+        final String testmode = System.getProperty("testmode");
+
+        boolean mode = true;
+
+        if (testmode == null || testmode.equalsIgnoreCase("local")) {
+            mode = false;
+        } else if (testmode.equalsIgnoreCase("grid")) {
+            mode = true;
+        }
+
+        return mode;
     }
 }
