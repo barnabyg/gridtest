@@ -138,13 +138,17 @@ public final class GridTest {
             break;
         case "chrome":
             if (SystemUtils.IS_OS_LINUX) {
+
                 System.setProperty(
                         "webdriver.chrome.driver",
-             "/opt/jenkins/workspace/gridtest/src/test/resources/chromedriver");
+        "/opt/jenkins/jobs/gridtest/workspace/src/test/resources/chromedriver");
+
             } else if (SystemUtils.IS_OS_WINDOWS) {
+
                 System.setProperty(
                         "webdriver.chrome.driver",
              "C:\\docs\\git\\gridtest\\src\\test\\resources\\chromedriver.exe");
+
             }
 
             driver = new ChromeDriver();
