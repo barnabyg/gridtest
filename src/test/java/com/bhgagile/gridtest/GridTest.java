@@ -132,6 +132,7 @@ public final class GridTest {
         WebDriver driver = null;
 
         switch (browser) {
+
         case "firefox":
             driver = new FirefoxDriver();
             break;
@@ -173,8 +174,6 @@ public final class GridTest {
         } else if (testmode.equalsIgnoreCase("grid")) {
             mode = true;
         }
-
-        System.out.println("usingGrid=" + mode);
 
         return mode;
     }
