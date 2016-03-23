@@ -56,7 +56,7 @@
 
     <!-- Checks that property files contain the same keys.         -->
     <!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
-    <module name="Translation"/>
+<!--     <module name="Translation"/> -->
 
     <!-- Checks for Size Violations.                    -->
     <!-- See http://checkstyle.sf.net/config_sizes.html -->
@@ -161,7 +161,7 @@
           <property name="ignoreNumbers" value="-1, 0, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9" />
         </module>
         <module name="MissingSwitchDefault"/>
-        <module name="RedundantThrows"/>
+<!--         <module name="RedundantThrows"/> -->
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
 
